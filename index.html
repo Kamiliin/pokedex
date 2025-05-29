@@ -156,7 +156,7 @@ header{
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    align-items: start;
+    align-items: center;
     padding-inline: 2rem ;
     max-width: 1000px;
     margin: 0 auto;
@@ -164,7 +164,7 @@ header{
 
 .nav-list{
     display: flex;
-    align-items:center;
+    align-items: center;
     flex-wrap:wrap ;
     gap: .5rem;
     
@@ -309,6 +309,12 @@ main{
 
 }
 
+.btn-audio{
+    background-color: var(--clr-gray);
+    padding: .25rem .5rem;
+    border-radius: 10vmax;
+
+}
 .stat{
     background-color: var(--clr-gray);
     padding: .25rem .5rem;
@@ -398,6 +404,8 @@ function mostrarPokemon(data){
   let tipos = data.types.map((type) => `<p class="${type.type.name} tipo">${type.type.name}</p>`);
   tipos = tipos.join('');
 
+  const audioURL = data.cries?.latest;
+
   const div = document.createElement("div");
   div.classList.add("pokemon");
   div.innerHTML = `
@@ -414,9 +422,16 @@ function mostrarPokemon(data){
         <div class="pokemon-stats">
             <p class="stat">${data.height}m</p>
             <p class="stat">${data.weight}k</p>
-        </div>`;
+        </div>
+        ${
+          audioURL
+            ? `<button onclick="new Audio('${audioURL}').play()" class=" btn-audio">🔊 Escuchar</button>`
+            : `<p class="stat">Audio no disponible</p>`
+        }
+    `;
   listaPokemon.appendChild(div);
 }
+
 
 botonesHeader.forEach(boton => {
     boton.addEventListener("click", (event) => {
